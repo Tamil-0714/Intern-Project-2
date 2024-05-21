@@ -1,0 +1,12 @@
+.admin-page-container{
+    height: 100%;
+    display: flex;
+}
+.left-container{
+    width: 40%;
+    background-color: #F7FFFB;
+}
+.right-container{
+    width: 60%;
+    background-color: #f2fff7;
+}

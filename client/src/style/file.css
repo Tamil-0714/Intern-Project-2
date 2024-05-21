@@ -1,0 +1,43 @@
+.file-container{
+    width: 351.8px;
+    height: 85.5px;
+    margin: 10px 5px;
+    display: flex;
+    background-color: rgba(178, 178, 178, 0.21);
+    border-radius: 20px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10px; 
+    cursor: auto;
+}
+
+.file-name-extension{
+    width: 60%;
+    height: 29px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-name{
+    display: -webkit-box;
+    -webkit-line-clamp:1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: auto;
+}
+.doc-icon{
+    width: 10%;
+}
+.file-btn-container{
+    margin: 0;  
+    width: 10%;
+    justify-content: space-around;
+}
+.btn{
+    cursor: pointer;
+}
+
+/* .btn{
+    width: 120px;
+} */
