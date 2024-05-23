@@ -1,70 +1,79 @@
+/* @import "animate.css/animate.min.css"; */
 
-.users-container{
-    padding-top: 10px;
+/* .animate__animated.animate__backInDown {
+    --animate-duration: 2s;
+}   */
+
+.users-container {
+  padding-top: 10px;
 }
-.user-profile-container{
-    display: flex;
-    height: 125.5px;
-    width: 351.8px;
-    background-color: rgba(178, 178, 178, 0.21);
-    justify-content: space-evenly;
-    cursor: pointer;
-    margin: 14px 0;
-    border-radius: 20px;
+.user-profile-container {
+  display: flex;
+  height: 125.5px;
+  width: 351.8px;
+  background-color: rgba(178, 178, 178, 0.21);
+  justify-content: space-evenly;
+  cursor: pointer;
+  margin: 14px 0;
+  border-radius: 20px;
+  /* animation-duration: 0s !important; */
 }
-.user-profile-container:nth-child(1){
-    margin-top: 0 !important; 
+.animation-duration-0 {
+    animation-duration: 0s !important;
+  }
+.user-profile-container:nth-child(1) {
+  margin-top: 0 !important;
 }
-.selected-user{
-    position: relative;
+.selected-user {
+  position: relative;
 }
-.user-profile-pic{
-    /* outline: 1px solid green; */
-    width:50px;
-    height: 100%;
-    margin-top: 4%;
-    /* display: flex; */
-    /* align-items: flex-start; */
+.user-profile-pic {
+  /* outline: 1px solid green; */
+  width: 50px;
+  height: 100%;
+  margin-top: 4%;
+  /* display: flex; */
+  /* align-items: flex-start; */
 }
-.user-profile-pic img{
-    width: 50px;
-    height: 50px;
-    margin-top: 5px;
-    border-radius: 50%;
+.user-profile-pic img {
+  width: 50px;
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 50%;
 }
-.user-name-time-container{
-    /* outline: 1px solid blue; */
-    width: 60%;
-    font-size: 1.1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
+.user-name-time-container {
+  /* outline: 1px solid blue; */
+  width: 60%;
+  font-size: 1.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
 }
-.user-name{
-    font-size: 0.9em;
-    color: #479C04;
+.user-name {
+  font-size: 0.9em;
+  color: #479c04;
 }
-.user-time{
-    color:#169198;
-    font-size: 0.7em;
+.user-time {
+  color: #169198;
+  font-size: 0.7em;
 }
-.user-msg{
-    font-size: 0.6em;
+.user-msg {
+  font-size: 0.6em;
 }
-.read-unread-tag{
-    width: 10%;
-    position: relative;
+.read-unread-tag {
+  width: 10%;
+  position: relative;
 }
-.active-inactive{
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50% , -50%);
+.active-inactive {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.active{
-    background-color: #479C04;
+.active {
+  background-color: #479c04;
 }

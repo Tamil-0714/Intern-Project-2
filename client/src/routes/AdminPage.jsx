@@ -3,12 +3,14 @@ import ErrorRoute from "./ErrorRoute";
 import axios from "axios";
 import { BASE_API_URL } from "../assests";
 import UsersProfile from "../components/UsersProfile";
+import ReactLoading from "react-loading";
 
 import "../style/adminPage.css";
 
 const AdminPage = () => {
   const [sessionId, setSessionId] = useState(false);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function verifySession() {
       const localSessionId = localStorage.getItem("sessionId");
@@ -26,7 +28,9 @@ const AdminPage = () => {
           location.href = "/admin";
         } else {
           setSessionId(localSessionId);
+          setIsLoading(true);
           const users = await gatherUsersData(localSessionId);
+          setIsLoading(false);
           setUsers(users);
         }
       }
@@ -50,7 +54,10 @@ const AdminPage = () => {
     return res.data;
   }
   return !sessionId ? (
-    <ErrorRoute />
+    // <ErrorRoute />
+    <div className="initilal-loader">
+      <ReactLoading type="bars" color="#000" height={123} width={123} />
+    </div>
   ) : (
     <div className="admin-page-container ">
       <div className="left-container">
@@ -64,7 +71,11 @@ const AdminPage = () => {
         </button>
       </div>
       <div className="right-container">
-        <UsersProfile _users={users} />
+        {isLoading ? (
+          <div className="users-loading"><ReactLoading type="cylon" color="#baff82" height={123} width={123} /></div>
+        ) : (
+          <UsersProfile _users={users} />
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 // import { FileUploader } from "react-drag-drop-files";
+import ReactLoading from "react-loading";
 import { useDropzone } from "react-dropzone";
 import UserProfile from "./UserProfile";
 import "../style/usersProfile.css";
@@ -21,7 +22,7 @@ const UsersProfile = ({ _users }) => {
   const [fileData, setFileData] = useState([]);
   const [loaclName, setLoaclName] = useState("");
   const [localUserId, setLocalUserId] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   const [localTime, setLocalTime] = useState("");
   const [localImg, setLocalImg] = useState(false);
   const [fileUploading, setFileUploading] = useState(false);
@@ -30,7 +31,6 @@ const UsersProfile = ({ _users }) => {
     setLoaclName(name);
     setLocalTime(time);
     setLocalImg(img);
-
   };
   useEffect(() => {
     console.log("localUserId updated:", localUserId);
@@ -44,8 +44,10 @@ const UsersProfile = ({ _users }) => {
       userId: userId,
       sessionId: localStorage.getItem("sessionId"),
     };
+    setIsLoading(true)
     const file = await axios.post(`${BASE_API_URL}/files`, formData);
     setFileData(file.data);
+    setIsLoading(false);
   };
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
@@ -89,20 +91,17 @@ const UsersProfile = ({ _users }) => {
         if (response.status >= 200 && response.status < 300) {
           const result = response.data;
           console.log(result);
-          setFileUploading(false)
-          
-          await fetchUserFiles(result.userId)
-          
+          setFileUploading(false);
+
+          await fetchUserFiles(result.userId);
         } else {
           console.error("Error uploading file:", response.status);
-          localStorage.removeItem("sessionId")
-          location.reload()
-          
+          localStorage.removeItem("sessionId");
+          location.reload();
         }
       } catch (error) {
         console.error("Error uploading file:", error);
       }
-      
     }
   };
 
@@ -166,6 +165,7 @@ const UsersProfile = ({ _users }) => {
                     key={user.userId}
                     userId={user.userId}
                     setFileData={setFileData}
+                    setIsLoading={setIsLoading}
                     profile={user.profileLink}
                     handleLocals={handleLocals}
                     name={user.userName}
@@ -176,11 +176,32 @@ const UsersProfile = ({ _users }) => {
               );
             })}
         </div>
-        <div className="files-component-container">
-        {(fileData.length > 0 && !fileUploading) && (
-            <Files userId={localUserId} fileData={fileData} fetchUserFiles={fetchUserFiles}/>
+        {!localUserId ? (
+          <></>
+        ) : (
+          <div className="files-component-container">
+            {/* {
+            if(fileData.length > 0 && !fileUploading){}
+          } */}
+
+            {isLoading ? (
+              <div className="files-loading">
+                <ReactLoading
+                  type="spokes"
+                  color="#000ff02"
+                  height={70}
+                  width={80}
+                />
+              </div>
+            ) : (
+              <Files
+                userId={localUserId}
+                fileData={fileData}
+                fetchUserFiles={fetchUserFiles}
+              />
+            )}
+          </div>
         )}
-        </div>
       </div>
     </div>
   );
