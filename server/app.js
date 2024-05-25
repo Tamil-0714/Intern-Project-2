@@ -4,7 +4,7 @@ const PORT = 3000;
 const cors = require("cors");
 
 const { upload } = require("./multerFuncs/mult");
-const { files, adminCred, users, uploadRoute, fileDeleteRoute } = require("./routes/routes");
+const { files, adminCred, users, uploadRoute, fileDeleteRoute, newUserRoute } = require("./routes/routes");
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +23,7 @@ const asyncMulterMiddleware = (req, res, next) => {
 };
 app.post("/upload", asyncMulterMiddleware, uploadRoute);
 app.post("/deleteFile",fileDeleteRoute)
+app.post("/newUser", newUserRoute)
 
 app.listen(PORT, () => {
   console.log(`app running on http://localhost:${PORT}`);

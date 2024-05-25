@@ -38,6 +38,16 @@
     border-radius: 20px;
     margin-left: 400px;
 }
+.name-container-hide{
+    position: relative;
+    left: -1000%;
+    transition: 0.4s ease-in;
+}
+.name-container-show{
+    left: 0;
+    transition: 0.4s ease-in-out;
+    position: static;
+}
 
 .side-profile-img{
     /* outline: 1px solid green; */

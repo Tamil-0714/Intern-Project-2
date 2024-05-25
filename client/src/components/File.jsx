@@ -47,15 +47,19 @@ const File = ({
     document.body.removeChild(link);
   };
   const handleDeleteFile = async () => {
-    const formData = {
-      userId: userId,
-      sessionId: localStorage.getItem("sessionId") || "",
-      fileName: fileName + "." + fileExtension,
-    };
-    const res = await axios.post(`${BASE_API_URL}/deleteFile`, formData);
-    console.log(res.data);
-    if (res.data.message === "file deleted") {
-      await fetchUserFiles(userId);
+    if (confirm("Are you sure to delete ?")) {
+      const formData = {
+        userId: userId,
+        sessionId: localStorage.getItem("sessionId") || "",
+        fileName: fileName + "." + fileExtension,
+      };
+      const res = await axios.post(`${BASE_API_URL}/deleteFile`, formData);
+      console.log(res.data);
+      if (res.data.message === "file deleted") {
+        await fetchUserFiles(userId);
+      }
+    } else {
+      return;
     }
   };
   return (

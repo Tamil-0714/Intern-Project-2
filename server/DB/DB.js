@@ -31,8 +31,13 @@ async function queryDB(sql, params) {
     connection.releaseConnection();
     return rows;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (error.code === "ER_DUP_ENTRY") {
+      console.error("Duplicate entry error:", error.message);
+      return {message:"ER_DUP_ENTRY"}
+    } else {
+      console.error("Error occurred:", error.message);
+    }
+    // throw error; // Re-throw the error if needed
   }
 }
 
@@ -69,42 +74,52 @@ async function updateSessionId(sessionId, id) {
     console.error(error);
   }
 }
-async function gatherUsers(){
+async function gatherUsers() {
   try {
-    const query = 'SELECT * FROM users'
-    const params = null
-    const rows = await queryDB(query,params)
-    return rows
+    const query = "SELECT * FROM users";
+    const params = null;
+    const rows = await queryDB(query, params);
+    return rows;
   } catch (error) {
     console.error(error);
   }
 }
-async function getFilesInfo(userId){
+async function getFilesInfo(userId) {
   try {
-    const query = 'SELECT * FROM files WHERE userId= ?'
-    const params = [userId]
-    const rows = await queryDB(query,params)
-    return rows
+    const query = "SELECT * FROM files WHERE userId= ?";
+    const params = [userId];
+    const rows = await queryDB(query, params);
+    return rows;
   } catch (error) {
     console.error(error);
   }
 }
-async function insertFilesInfo(userId,filePath){
+async function insertFilesInfo(userId, filePath) {
   try {
-    const query = 'insert into files(fileLink,userId) values(?,?)'
-    const params = [filePath,userId]
-    const rows = await queryDB(query,params)
-    return rows
+    const query = "insert into files(fileLink,userId) values(?,?)";
+    const params = [filePath, userId];
+    const rows = await queryDB(query, params);
+    return rows;
   } catch (error) {
     console.error(error);
   }
 }
-async function deleteFilesInfo(userId,filePath){
+async function deleteFilesInfo(userId, filePath) {
   try {
-    const query = 'delete from files where fileLink=? and userId=?'
-    const params = [filePath,userId]
-    const rows = await queryDB(query,params)
-    return rows
+    const query = "delete from files where fileLink=? and userId=?";
+    const params = [filePath, userId];
+    const rows = await queryDB(query, params);
+    return rows;
+  } catch (error) {
+    console.error(error);
+  }
+}
+async function createNewUser(userId, userName, password) {
+  try {
+    const query = "insert into users(userId, userName, password) values(?,?,?)";
+    const params = [userId, userName, password];
+    const rows = await queryDB(query, params);
+    return rows;
   } catch (error) {
     console.error(error);
   }
@@ -117,5 +132,6 @@ module.exports = {
   gatherUsers,
   getFilesInfo,
   insertFilesInfo,
-  deleteFilesInfo
+  deleteFilesInfo,
+  createNewUser,
 };

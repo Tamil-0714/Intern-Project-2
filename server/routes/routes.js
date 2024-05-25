@@ -9,6 +9,7 @@ const {
   getFilesInfo,
   insertFilesInfo,
   deleteFilesInfo,
+  createNewUser,
 } = require("../DB/DB");
 const {
   validateSession,
@@ -106,26 +107,61 @@ const uploadRoute = async (req, res) => {
     req.body.userId,
     req.file.path.split("/").slice(-3).join("/")
   );
-  res.status(200).json({ message: "File uploaded successfully", userId:req.body.userId });
+  res
+    .status(200)
+    .json({ message: "File uploaded successfully", userId: req.body.userId });
 };
 
-
-const fileDeleteRoute = async(req,res) =>{
+const fileDeleteRoute = async (req, res) => {
   console.log(req.body);
-  const {userId,fileName} = req.body;
-  console.log("this file path",fileName);
-  if(await validateSession(req.body.sessionId)){
-    await deleteFilesInfo(userId, `userDocuments/${userId}/${fileName}`)
+  const { userId, fileName } = req.body;
+  console.log("this file path", fileName);
+  if (await validateSession(req.body.sessionId)) {
+    await deleteFilesInfo(userId, `userDocuments/${userId}/${fileName}`);
     const pathArr = __dirname.split("/");
     pathArr.pop();
     const fileOrigin = pathArr.join("/");
-    const finalPath = path.join(fileOrigin,`userDocuments/${userId}/${fileName}`)
-    deleteFile(finalPath)
-    res.status(200).json({"message":"file deleted"})
+    const finalPath = path.join(
+      fileOrigin,
+      `userDocuments/${userId}/${fileName}`
+    );
+    deleteFile(finalPath);
+    res.status(200).json({ message: "file deleted" });
   }
-}
+};
 
-module.exports = { files, adminCred, users, uploadRoute,fileDeleteRoute };
+const newUserRoute = async (req, res) => {
+  if (await validateSession(req.body.sessionId)) {
+    const { userId, userName, password } = req.body;
+    if (userId.trim() && userName.trim() && password.trim()) {
+      try {
+        const result = await createNewUser(userId, userName, password);
+        console.log("from resutl",result);
+        if(result.message && result.message === 'ER_DUP_ENTRY'){
+          return res.status(300).json({message:result.message})
+        }
+        if (result && result.affectedRows > 0) {
+          return res.status(201).json({ message: "user created" });
+        } else {
+          return res.status(500).json({ message: "internal server error" });
+        }
+      } catch (error) {
+        console.error(error.message)
+      }
+    }
+  } else {
+    return res.status(401).json({ message: "invalid session" });
+  }
+};
+
+module.exports = {
+  files,
+  adminCred,
+  users,
+  uploadRoute,
+  fileDeleteRoute,
+  newUserRoute,
+};
 
 // async (req, res) => {
 //   upload(req, res, async (err) => {
