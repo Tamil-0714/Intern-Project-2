@@ -95,6 +95,8 @@ const users = async (req, res) => {
       })
     );
     res.json(usersWithImages);
+  } else {
+    // will do later
   }
 };
 const uploadRoute = async (req, res) => {
@@ -135,7 +137,7 @@ const newUserRoute = async (req, res) => {
     const { userId, userName, password } = req.body;
     if (userId.trim() && userName.trim() && password.trim()) {
       try {
-        const result = await createNewUser(userId, userName, password);
+        const result = await createNewUser(userId, userName, await bcrypt.hash(password, 7));
         console.log("from resutl",result);
         if(result.message && result.message === 'ER_DUP_ENTRY'){
           return res.status(300).json({message:result.message})

@@ -6,6 +6,7 @@ import UsersProfile from "../components/UsersProfile";
 import ReactLoading from "react-loading";
 
 import "../style/adminPage.css";
+import NewUser from "../components/NewUser";
 
 const AdminPage = () => {
   const [sessionId, setSessionId] = useState(false);
@@ -31,7 +32,6 @@ const AdminPage = () => {
           setIsLoading(true);
           const users = await gatherUsersData(localSessionId);
           setIsLoading(false);
-          setUsers(users);
         }
       }
     }
@@ -51,6 +51,7 @@ const AdminPage = () => {
   async function gatherUsersData(s) {
     const formData = { sessionId: s };
     const res = await axios.post(`${BASE_API_URL}/users`, formData);
+    setUsers(res.data);
     return res.data;
   }
   return !sessionId ? (
@@ -61,7 +62,7 @@ const AdminPage = () => {
   ) : (
     <div className="admin-page-container ">
       <div className="left-container">
-        <button
+        <button className="log-out-btn"
           onClick={() => {
             localStorage.removeItem("sessionId");
             location.href = "/admin";
@@ -69,6 +70,7 @@ const AdminPage = () => {
         >
           Log out
         </button>
+        <NewUser gatherUsersData={gatherUsersData}/>
       </div>
       <div className="right-container">
         {isLoading ? (

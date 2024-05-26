@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminLogin from "./routes/AdminLogin.jsx";
 import ErrorRoute from "./routes/ErrorRoute.jsx";
 import AdminPage from "./routes/AdminPage.jsx";
-import NewUser from "./components/NewUser.jsx";
+// import NewUser from "./components/NewUser.jsx";
 
 
 
@@ -26,10 +26,10 @@ const router = createBrowserRouter([
     element: <AdminPage />,
     errorElement:<ErrorRoute/>
   },
-  {
-    path: "/test",
-    element:<NewUser/>
-  }
+  // {
+  //   path: "/test",
+  //   element:<NewUser/>
+  // }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
